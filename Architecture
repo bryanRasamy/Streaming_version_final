@@ -1,0 +1,97 @@
+Streaming/
+├── common/                  # Code partagé (utilitaires)
+│   └── ProtocolConfig.java  # Paramètres communs (Port, Qualité, Résolution)
+│
+├── sender/                  # Serveur
+│   ├── MainSender.java      # Point d'entrée
+│   ├── ScreenCapturer.java  # Gestion et capture de l'écran
+│   ├── ImageEncoder.java    # Compression, selecteur de qualite
+│   └── StreamServer.java    # Gestion des Sockets (Envoi des données), frame-skip
+│
+└── receiver/                # Client
+    ├── MainReceiver.java    # Point d'entrée
+    ├── StreamClient.java    # Gestion des Sockets (Réception des données)
+    ├── ImageDecoder.java    # Décompression 
+    └── DisplayWindow.java   # Interface Swing pour l'affichage
+    
+    
+    
+    
+Capture d'ecran -> Compression -> envoi -> recevoir -> decompression -> affichage
+
+-ProtocolConfig.java:
+	-Reseau:
+		-Definit le port du serveur;
+		-Definit l'IP du serveur;
+		
+	-Capture d'ecran:
+		-Definit la taille de l'ecran;
+		-Definit le FPS;
+		-Definit le temps d'affichage d'un frame (ex: toutes les 50 ms);
+		
+	-Compression:
+		-Definit la qualite du frame;
+		-Definit le format de l'image;
+		
+	-Controle du flux:
+		-Definit si sauter des frames est autoriser;
+		-Definit le temps d'attente max avant qu'une operation soit considerer comme bloquer ou perdue
+		
+	-Protocole:
+		-Definit la taille du paquet a envoier;
+		-Definit la taille du paquet a recevoir;
+		
+	-Fonctions:
+		-Calcul du delai entre frames en nannosecondes;
+		-Retourne la qualite de l'image et fait en sorte que la qualite de l'image soit entre 0.0 et 1.0 (0 a 100%);
+		
+
+-MainSender.java:
+	-Lance l'interface;
+	-Lance la capture:
+		-Attendre que la fenetre soit creer;
+		-Demarrer le serveur;
+		-Creer la capture;
+		-Envoyer les frame aux clients;
+		-Mettre a jour l'affichage;
+		-Afficher les stats dans la console;
+		-Demarrer la capture;
+		
+-ScreenCapturer.java:
+	-Methodes:
+		-interface FrameCallback:
+			-gere les frame capturer;
+			
+		-setCaptureArea:
+			-definit la zone a capturer;
+			
+		-setCaptureAreaFromConfig:
+			-definit la zone selon la config:
+				-Prendre la taille de l'ecran;
+				-Centre l'ecran capture;
+				-Si l'ecran est plus petit que la capture, on capture tout l'ecran
+		
+		-setFrameCallback:
+			-definit le callback qui recevra les frames;
+			
+		-setPreviewEnabled:
+			-Active/desactive la generation d'image;
+			
+		-setJpegQuality:
+			-Definit la qualite JPEG;
+			
+		-getEncoder:
+			-retourne l'encodeur;
+			
+		-startCapture:
+			-Demarre la capture en continu:
+				-lancer la boucle de capture;
+				
+		-captureLoop:
+			-Boucle principale de capture:
+				-tant que la capture est demarrer:
+					-Capture de l'ecran;
+					-Encode en JPEG;
+					-Decode pour l'affichage du sender;
+					-Callback (on stocke les donnees dans la methodes pour l'utiliser plus tard)
+					-Attendre pour respecter le fps cible

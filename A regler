@@ -1,0 +1,6 @@
+-(ok) les frame recu par le client sont en desordre
+-(ok) Exception in thread "TCP-Receiver-Thread" java.lang.NegativeArraySizeException: -268210959
+	at receiver.StreamClient.lambda$start$0(StreamClient.java:97)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+	
+-(ok) Reorganiser le code pour qu'il soit plus facile a lire;
