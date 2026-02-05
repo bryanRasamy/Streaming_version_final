@@ -10,7 +10,7 @@ import common.*;
 public class MainSender {
     private ScreenCapturer capturer;
     private Sender senderWindow;
-    private StreamServer server;  // ← StreamServer ajouté
+    private StreamServer server;
 
     public MainSender() {
         // Lancement de l'affichage

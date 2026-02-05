@@ -136,7 +136,7 @@ public class Receiver extends JFrame {
     private void highresolution(){
         if (mainReceiver != null && mainReceiver.getClient() != null) {
             try {
-                mainReceiver.getClient().requestQualityChange(0.85f); // 75% qualité
+                mainReceiver.getClient().requestQualityChange(0.85f); 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 
                     "Erreur lors du changement de qualité : " + e.getMessage(), 
@@ -150,7 +150,7 @@ public class Receiver extends JFrame {
     private void lowresolution(){
         if (mainReceiver != null && mainReceiver.getClient() != null) {
             try {
-                mainReceiver.getClient().requestQualityChange(0.1f); // 15% qualité
+                mainReceiver.getClient().requestQualityChange(0.1f); 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 
                     "Erreur lors du changement de qualité : " + e.getMessage(), 
